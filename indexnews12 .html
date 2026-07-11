@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>声潮论坛 - 新闻资讯</title>
+	<style>
+		:root {
+			--bg-color: #e6e6e6;
+			--transition-speed: 0.3s;
+		}
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body {
+			background-color: var(--bg-color);
+			font-family: "微软雅黑", "宋体", Arial, sans-serif;
+			font-size: 14px;
+			color: #333;
+			line-height: 1.8;
+			transition: background-color 0.5s ease;
+		}
+		.container {
+			width: 960px;
+			margin: 10px auto;
+			background-color: #fff;
+			border: 1px solid #b3b3b3;
+			border-top: 3px solid #336699;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+			transition: background-color 0.5s ease, border-color 0.5s ease;
+		}
+		.header {
+			background: #336699;
+			color: white;
+			padding: 10px 20px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.header .logo {
+			font-size: 22px;
+			font-weight: bold;
+			letter-spacing: 2px;
+			text-shadow: 1px 1px 2px #000;
+		}
+		.header .logo span {
+			font-size: 14px;
+			font-weight: normal;
+			color: #cce0ff;
+			margin-left: 10px;
+		}
+		.header .user-area {
+			display: flex;
+			gap: 15px;
+			align-items: center;
+			font-size: 14px;
+		}
+		.header .user-area a {
+			color: #fff;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+		.header .user-area a:hover {
+			color: #ffcc00;
+		}
+		.nav {
+			background: #f0f0f0;
+			border-bottom: 1px solid #ccc;
+			padding: 8px 20px;
+			font-size: 13px;
+		}
+		.nav a {
+			color: #336699;
+			margin-right: 20px;
+			text-decoration: none;
+		}
+		.nav a:hover {
+			text-decoration: underline;
+		}
+		.nav .breadcrumb {
+			color: #666;
+		}
+		.search-bar {
+			padding: 15px 20px;
+			background: #fafafa;
+			border-bottom: 1px solid #ddd;
+			display: flex;
+			gap: 10px;
+			align-items: center;
+		}
+		.search-bar input[type="text"] {
+			width: 350px;
+			padding: 6px 10px;
+			border: 1px solid #aaa;
+			border-radius: 3px;
+			font-size: 14px;
+		}
+		.search-bar button {
+			padding: 6px 15px;
+			background: #336699;
+			color: white;
+			border: 1px solid #225588;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: bold;
+		}
+		.search-bar button:hover {
+			background: #2a5a8c;
+		}
+		.main-content {
+			padding: 25px 30px;
+			min-height: 400px;
+			transition: background-color 0.5s ease, color 0.5s ease;
+		}
+		.news-article h2 {
+			font-size: 22px;
+			color: #222;
+			margin-bottom: 10px;
+			line-height: 1.4;
+		}
+		.news-meta {
+			color: #888;
+			font-size: 12px;
+			margin-bottom: 20px;
+			padding-bottom: 15px;
+			border-bottom: 1px dashed #ddd;
+		}
+		.news-meta span {
+			margin-right: 20px;
+		}
+		.news-body p {
+			text-indent: 2em;
+			margin-bottom: 15px;
+			text-align: justify;
+		}
+		.news-body .quote {
+			border-left: 3px solid #336699;
+			padding-left: 15px;
+			margin: 20px 0;
+			color: #555;
+			font-style: italic;
+			text-indent: 0;
+		}
+		.divider {
+			border: none;
+			border-top: 1px solid #ddd;
+			margin: 30px 0;
+		}
+		.recommend {
+			margin-top: 30px;
+			padding: 15px;
+			background: #f5f5f5;
+			border: 1px solid #ddd;
+		}
+		.recommend h4 {
+			font-size: 14px;
+			color: #666;
+			margin-bottom: 12px;
+		}
+		.recommend ul {
+			list-style: none;
+			padding: 0;
+		}
+		.recommend ul li {
+			margin-bottom: 8px;
+			padding-left: 15px;
+			position: relative;
+		}
+		.recommend ul li::before {
+			content: "•";
+			position: absolute;
+			left: 0;
+			color: #336699;
+		}
+		.recommend ul li a {
+			color: #336699;
+			text-decoration: underline;
+			cursor: pointer;
+			font-size: 14px;
+		}
+		.recommend ul li a:hover {
+			color: #cc0000;
+		}
+		.recommend ul li span.fake-link {
+			color: #888;
+			text-decoration: underline;
+			cursor: not-allowed;
+			font-size: 14px;
+		}
+		.footer {
+			text-align: center;
+			padding: 15px;
+			color: #888;
+			font-size: 12px;
+			border-top: 1px solid #ddd;
+			margin-top: 20px;
+		}
+		.back-link {
+			display: inline-block;
+			margin-bottom: 15px;
+			color: #336699;
+			text-decoration: underline;
+			cursor: pointer;
+			font-size: 13px;
+		}
+		/* 法庭对话样式 */
+		.courtroom-dialogue {
+			background: #f9f9f9;
+			border: 1px solid #ddd;
+			padding: 20px;
+			margin: 20px 0;
+			font-size: 13px;
+			line-height: 2;
+		}
+		.courtroom-dialogue .speaker {
+			font-weight: bold;
+			color: #336699;
+		}
+		.courtroom-dialogue .action {
+			color: #888;
+			font-style: italic;
+			margin: 10px 0;
+		}
+		/* 恐怖红字堆叠效果 - 增大偏移距离 */
+		.horror-text-container {
+			display: inline-block;
+			position: relative;
+			margin: 20px 0;
+			font-weight: bold;
+			font-size: 18px;
+		}
+		.horror-layer {
+			position: absolute;
+			top: 0;
+			left: 0;
+			white-space: nowrap;
+			color: red;
+			opacity: 0.8;
+			pointer-events: none;
+		}
+		.horror-base {
+			position: relative;
+			color: #ff0000;
+			z-index: 1;
+			text-shadow: 0 0 10px #ff0000;
+		}
+		.section-title {
+			font-size: 16px;
+			font-weight: bold;
+			color: #222;
+			margin: 25px 0 10px 0;
+			padding-bottom: 5px;
+			border-bottom: 1px solid #ddd;
+		}
+		.bg-transition {
+			transition: background-color 0.8s ease;
+		}
+	</style>
+</head>
+<body id="bodyElement">
+	<div class="container" id="mainContainer">
+		<!-- 头部 -->
+		<div class="header">
+			<div class="logo">
+				声潮论坛<span> - 听见声音，汇聚思潮</span>
+			</div>
+			<div class="user-area">
+				<a href="#" onclick="event.preventDefault();">注册</a>
+				<a href="#" onclick="event.preventDefault();">登录</a>
+			</div>
+		</div>
+
+		<!-- 导航 -->
+		<div class="nav">
+			<a href="#">首页</a> &gt; <a href="#">新闻资讯</a> &gt; <span class="breadcrumb">孔雀镇在线</span>
+		</div>
+
+		<!-- 搜索栏 -->
+		<div class="search-bar">
+			<input type="text" id="searchInput" placeholder="输入关键词搜索新闻...">
+			<button onclick="performSearch()">搜 索</button>
+		</div>
+
+		<!-- 主内容区 -->
+		<div class="main-content" id="newsContent">
+			<!-- 动态加载新闻 -->
+		</div>
+
+		<div class="footer">
+			声潮论坛 © 2009-2020 | Powered by TideBBS 2.0 | 联系管理员: admin@shengchao.com
+		</div>
+	</div>
+
+	<script>
+		// 新闻一数据（绵密版）
+		const news1 = {
+			title: '孔雀镇一农民深夜离奇失踪，家属悬赏寻人至今未果',
+			source: '孔雀镇在线',
+			time: '2017-02-06',
+			body: `
+				<p>本报讯 2月3日晚，孔雀镇下辖的石头村村民李某某（男，42岁）从邻村亲戚家返回途中离奇失踪，至今下落不明。家属已于次日向孔雀镇派出所报案，并在周边村庄张贴寻人启事，悬赏征集线索，但截至目前仍未获得有效信息。</p>
+				<p>据家属描述，李某某当晚约8时许从邻村出发，沿孔雀岭山路步行返回石头村。该路段夜间无照明，两边林木茂密，平时过往车辆稀少。李某某离家时身穿一件灰白色旧夹克，脚穿黑色胶鞋，随身携带一只手电筒。次日上午，家属沿途搜寻，在山路某处弯道附近发现地面有新鲜刹车痕迹及少量散落的玻璃碎片，但未见其他异常。</p>
+				<p>家属表示，李某某平日以务农为生，为人老实本分，从未与人结怨，社会关系简单，年前也无异常举动，失踪前并无任何征兆。家中尚有年迈父母及一个十岁的女儿。其妻早年病故，李某某独自抚养女儿长大，父女感情深厚。邻居反映，李某某每天晚饭后都会陪女儿在院子里数星星，失踪当天出门前还特意把院门修好了，说是怕女儿晚上害怕。</p>
+				<p>记者走访了李某某的邻居王婶，王婶抹着眼泪说：“老李是个好人啊，谁家有事他都帮忙。那天晚上他走的时候还跟我打招呼，说去他大舅子家送点腊肉，顺便拿点年货回来。谁能想到这一去就没了人影。他那个闺女天天站在村口等，怎么劝都不回去，看着都揪心。”</p>
+				<div class="quote">
+					<p>“我爸那天晚上说去舅舅家送点年货，走的时候还跟我说回来给我带糖吃。他从来不会骗我的。求求好心人，如果看到我爸，一定要告诉我们。”——李某某的女儿在记者采访时泣不成声。</p>
+				</div>
+				<p>石头村村委会已组织村民协助搜寻周边山林，孔雀镇派出所表示案件正在进一步调查中。据办案民警透露，现场提取的玻璃碎片经鉴定来自某品牌轿车的前大灯罩，初步判断为交通事故后肇事逃逸的可能性较大。但由于山路没有监控，夜间人车稀少，调查难度很大。</p>
+				<p>警方呼吁，如有在2月3日晚经过孔雀岭山路并发现可疑情况的群众，请立即与孔雀镇派出所联系。同时提醒广大驾驶员，夜间行车注意安全，发生事故后应第一时间报警抢救伤者，切勿抱有侥幸心理。知情者也可拨打家属联系电话：138xxxxxx37。</p>
+			`
+		};
+
+		// 新闻二数据（绵密版，格式调整，恐怖文字偏移增大）
+		const news2 = {
+			title: '孔雀镇三年前交通肇事案告破，夫妇落网牵出惊人隐情',
+			source: '孔雀镇在线',
+			time: '2020-03-12',
+			body: `
+				<p>【本站讯】三年前发生在孔雀镇石头村附近的交通肇事致人死亡案，近日取得重大突破。记者从孔雀镇派出所获悉，犯罪嫌疑人张某（男，45岁）及其妻子林某（女，43岁）已于本月9日被依法刑事拘留，二人对2017年2月3日晚驾车撞人后抛尸的犯罪事实供认不讳。至此，这起悬而未决三年之久的案件终于水落石出，而其背后隐藏的家庭悲剧更令人唏嘘。</p>
+
+				<div class="section-title">案发当晚：一次致命的绕路</div>
+				<p>据犯罪嫌疑人张某供述，2017年2月3日正值农历正月初七，其驾驶私家轿车携妻子、长子张皓宁（时年13岁）及幼子回孔雀镇老家过年。因幼子哭闹导致出发延误近一小时，加之原定路线发生拥堵，张某选择绕行孔雀岭山路。当晚约8时30分许，车辆在孔雀岭一处弯道撞上一名行人，受害人为石头村村民李某某（男，时年42岁）。</p>
+				<p>张某下车查看后，确认李某某已当场死亡。因事发路段偏僻无目击者，张某与妻子商议后，将尸体抬入车辆后备箱，用随车携带的旧毯子遮盖。次日在后山挖坑掩埋。此后，夫妻二人对子女及亲属谎称“撞到了一只羊”，并特意在家庭聊天中以开玩笑的口吻提及“吃羊肉”，以打消孩子疑虑。</p>
+				<p>办案民警透露，张某在审讯中回忆当时的情景时说：“其实我第一反应是报警，但我老婆一直哭，说家里还有两个孩子，要是进去了这个家就完了。我看着后备箱里那个一动不动的人，脑子一片空白，最后就听了她的。”而妻子林某则供称，自己当时非常害怕，只想着怎么把这件事瞒过去，没想到这一瞒就是三年。</p>
+
+				<div class="section-title">三名孩子：一人目睹，一人蒙昧，一人永别</div>
+				<p>案发次日凌晨，张某与妻子趁天未亮前往后山处理尸体。以为长子仍在睡觉的他们不知道，当时13岁的张皓宁因被反锁在院内而心生怀疑，翻墙尾随至后山，亲眼目睹了父母掩埋尸体的全过程。这一场景成为他此后三年无法摆脱的梦魇。据其日记记载，他曾反复梦见那个模糊的轮廓，听见泥土落下的声音。</p>
+				<p>而彼时尚不满三岁的幼子对此事一无所知。案发后，幼子继续在父母身边生活，直至张某夫妇被捕。目前幼子已交由亲戚代为照料，据亲戚描述，孩子经常问“爸爸妈妈去哪儿了”，而他们不知如何回答。</p>
+				<p>遇难者李某某的女儿，当年年仅十岁。三年来，她和年迈的祖父母相依为命，靠亲戚接济和低保度日。记者见到她时，她正站在村口的老槐树下，那里是她从前等父亲回家的地方。她说，每年过年都会多摆一副碗筷，“万一爸爸回来了呢”。</p>
+
+				<div class="section-title">少年的沉默与逃离</div>
+				<p>据警方走访调查，张皓宁在目睹现场后，三年间从未向任何人透露此事，包括他最要好的朋友周嘉俊。在家庭内部，他因幼弟出生后长期受到冷落，与父母关系早已疏远。案发后，他陷入严重的失眠与焦虑，逐渐沉迷网络游戏，学业大幅下滑。初中毕业时，他的成绩已跌至班级末尾。</p>
+				<p>2018年8月28日晚，年仅14岁的张皓宁独自携带积攒的一千余元现金，购买了一张从孔雀镇前往广州的火车票，从此下落不明。其最后一次登录互联网的记录停留在次日。警方在其遗留的电脑中发现了大量浏览记录，包括“未成年人如何找工作”“广州哪里房租便宜”等关键词，以及反复搜索“孔雀镇 车祸”“孔雀岭 事故”等新闻，但始终没有勇气点开任何一条。</p>
+				<p>周嘉俊在接受记者采访时沉默了很久，最后只说了一句话：“他说过要走，但我以为他只是说说而已。如果我知道那天晚上是他最后一次跟我聊天，我一定不会只回他一个‘保重’。”</p>
+
+				<div class="section-title">父亲的“寻人”：一个令人不寒而栗的动机</div>
+				<p>此案的告破，与张某在社交媒体上发布的一则寻人启事密切相关。</p>
+				<p>2019年底，张某在某平台发布长文，声称寻找失踪一年的长子张皓宁，并附上链接指向一个论坛账号。在这篇文章中，张某将自己包装成一个痛失爱子的父亲，言辞恳切，甚至写道“只要儿子愿意回来，我愿意用余生去弥补”。该文被多位热心网友转发，其中一条线索指向了声潮论坛，最终引起警方注意并重启调查。</p>
+				<p>然而，当记者在庭审现场问及张某发布寻人启事的初衷时，张某平静地说出了一句话——</p>
+
+				<div class="courtroom-dialogue" id="courtroomDialogue">
+					<p><span class="speaker">公诉人：</span>你在2019年底发布了一篇寻找儿子的文章，当时很多人都认为，你是因为对儿子心怀愧疚，想要在有生之年挽回这段父子关系。是这样吗？</p>
+					<p class="action">（张某沉默了片刻，微微抬起头。他的表情不是忏悔，不是悲伤，而是一种近乎空洞的平静。）</p>
+					<p><span class="speaker">张某：</span>不是。</p>
+					<p><span class="speaker">公诉人：</span>那你的目的是什么？</p>
+					<p><span class="speaker">张某：</span>他看见了。他什么都看见了。三年了，他不说话，但我知道他一直在怕我。怕我们。他走了以后，我每天晚上睡不着，想的不是他有没有吃饱、有没有地方住，想的是他会不会哪天突然回来，会不会去报警。</p>
+					<p class="action">（停顿。张某的眼神没有闪烁，直视前方。）</p>
+					<p><span class="speaker">张某：</span>我发那篇文章，是想让他自己出来。</p>
+					<p><span class="speaker">公诉人：</span>出来之后呢？</p>
+					<div class="horror-text-container" id="horrorText">
+						<span class="horror-layer" style="transform: translate(-8px, -4px); color: #ff0000; opacity: 0.9;">我只是想去杀了他。</span>
+						<span class="horror-layer" style="transform: translate(6px, 3px); color: #cc0000; opacity: 0.7;">我只是想去杀了他。</span>
+						<span class="horror-layer" style="transform: translate(-5px, 6px); color: #990000; opacity: 0.6;">我只是想去杀了他。</span>
+						<span class="horror-layer" style="transform: translate(7px, -5px); color: #ff3333; opacity: 0.8;">我只是想去杀了他。</span>
+						<span class="horror-layer" style="transform: translate(-3px, -6px); color: #ff0000; opacity: 0.5;">我只是想去杀了他。</span>
+						<span class="horror-base">我只是想去杀了他。</span>
+					</div>
+					<p class="action">（旁听席上有人倒吸了一口凉气。辩护律师低下头，用笔在纸上无意义地划着横线。整个法庭陷入了几秒钟的绝对寂静。）</p>
+				</div>
+
+				<div class="section-title">记者手记</div>
+				<p>这是一个家庭的毁灭，也是两个家庭的悲剧。</p>
+				<p>当我们追问那篇寻人启事背后的动机时，我们以为会听到一个父亲被愧疚压垮的故事。我们准备好了纸巾，准备好了一声叹息。但我们等来的是一句冰冷的、坦然的、不带一丝遮掩的答案。</p>
+				<p>李某某的墓碑在石头村后山上，杂草年年都有人拔。他的女儿今年十三岁了，笑起来很像他，邻居说那笑容让人看了又想哭又欣慰。而那个叫张皓宁的少年，至今没有任何消息。警方在系统中反复比对，没有发现他的身份证使用记录，没有银行卡消费记录，甚至连一条购票信息都没有。他就像一颗掉进大海的针，彻底消失了。</p>
+				<p>我们不知道该希望他永远不要看到这篇新闻，还是希望他看到。如果是前者，他会继续生活在某个城市的角落里，不知道自己的父亲曾计划亲手终结他的生命，也许这未尝不是一种慈悲。如果是后者，他会知道，那个他逃离了三年的人，再也不能伤害他了。</p>
+				<p>但无论是哪种结局，都没有赢家。</p>
+			`
+		};
+
+		// 新闻推荐列表（含混淆项）
+		const fakeNews = [
+			{ title: '孔雀镇一男子酒后驾驶被查，竟称“替朋友试试车”', real: false },
+			{ title: '石头村村民在自家后院挖出奇怪陶罐，专家鉴定为汉代文物', real: false },
+			{ title: '孔雀镇中心小学获赠一批电脑设备，爱心企业助力乡村教育', real: false },
+			{ title: '孔雀镇三年前交通肇事案告破，夫妇落网牵出惊人隐情', real: true },
+			{ title: '春节期间孔雀镇派出所破获多起盗窃案，提醒居民注意防盗', real: false },
+			{ title: '石头村后山发现一株罕见兰花，植物爱好者纷纷前往观赏', real: false },
+			{ title: '孔雀镇明日将迎来强降雨天气，相关部门已做好防汛准备', real: false },
+		];
+
+		function showNews1() {
+			const content = document.getElementById('newsContent');
+			resetBackground();
+			
+			const shuffled = [...fakeNews].sort(() => Math.random() - 0.5);
+			let recommendHTML = '<h4>📰 为您推荐其他新闻</h4><ul>';
+			shuffled.forEach(item => {
+				if (item.real) {
+					recommendHTML += `<li><a onclick="showNews2()">${item.title}</a></li>`;
+				} else {
+					recommendHTML += `<li><span class="fake-link" onclick="alert('该新闻暂时无法访问或已删除')">${item.title}</span></li>`;
+				}
+			});
+			recommendHTML += '</ul>';
+
+			content.innerHTML = `
+				<div class="news-article">
+					<h2>${news1.title}</h2>
+					<div class="news-meta">
+						<span>来源：${news1.source}</span>
+						<span>发布时间：${news1.time}</span>
+					</div>
+					<div class="news-body">
+						${news1.body}
+					</div>
+					<hr class="divider">
+					<div class="recommend">
+						${recommendHTML}
+					</div>
+				</div>
+			`;
+		}
+
+		function showNews2() {
+			const content = document.getElementById('newsContent');
+			resetBackground();
+			
+			content.innerHTML = `
+				<div class="news-article" id="news2Article">
+					<h2>${news2.title}</h2>
+					<div class="news-meta">
+						<span>来源：${news2.source}</span>
+						<span>发布时间：${news2.time}</span>
+					</div>
+					<div class="news-body" id="news2Body">
+						${news2.body}
+					</div>
+				</div>
+			`;
+			
+			setTimeout(() => {
+				initScrollBackground();
+			}, 100);
+		}
+
+		function resetBackground() {
+			document.body.style.backgroundColor = '#e6e6e6';
+			document.getElementById('mainContainer').style.backgroundColor = '#fff';
+			document.getElementById('mainContainer').style.borderColor = '#b3b3b3';
+			window.removeEventListener('scroll', bgScrollHandler);
+		}
+
+		let bgScrollHandler = null;
+
+		function initScrollBackground() {
+			const horrorElement = document.getElementById('horrorText');
+			if (!horrorElement) return;
+			
+			const bodyEl = document.body;
+			const container = document.getElementById('mainContainer');
+			const initialBg = { r: 230, g: 230, b: 230 };
+			const finalBg = { r: 26, g: 0, b: 0 };
+			
+			bgScrollHandler = function() {
+				const windowHeight = window.innerHeight;
+				const rect = horrorElement.getBoundingClientRect();
+				const startPoint = windowHeight;
+				const endPoint = windowHeight * 0.3;
+				
+				let progress = 0;
+				if (rect.top <= startPoint && rect.bottom >= 0) {
+					const distance = startPoint - rect.top;
+					const range = startPoint - endPoint;
+					progress = Math.min(1, Math.max(0, distance / range));
+				} else if (rect.top < endPoint) {
+					progress = 1;
+				}
+				
+				const r = Math.round(initialBg.r + (finalBg.r - initialBg.r) * progress);
+				const g = Math.round(initialBg.g + (finalBg.g - initialBg.g) * progress);
+				const b = Math.round(initialBg.b + (finalBg.b - initialBg.b) * progress);
+				bodyEl.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+				
+				const containerR = Math.round(255 + (finalBg.r - 255) * progress);
+				const containerG = Math.round(255 + (finalBg.g - 255) * progress);
+				const containerB = Math.round(255 + (finalBg.b - 255) * progress);
+				container.style.backgroundColor = `rgb(${containerR}, ${containerG}, ${containerB})`;
+				
+				const borderR = Math.round(179 + (100 - 179) * progress);
+				const borderG = Math.round(179 + (0 - 179) * progress);
+				const borderB = Math.round(179 + (0 - 179) * progress);
+				container.style.borderColor = `rgb(${borderR}, ${borderG}, ${borderB})`;
+				
+				if (progress > 0.5) {
+					document.querySelector('.main-content').style.color = '#ccc';
+				} else {
+					document.querySelector('.main-content').style.color = '#333';
+				}
+			};
+			
+			window.addEventListener('scroll', bgScrollHandler);
+			bgScrollHandler();
+		}
+
+		function performSearch() {
+			const query = document.getElementById('searchInput').value.trim();
+			if (query === '孔雀镇' || query === '失踪' || query === '李某某' || query === '农民') {
+				showNews1();
+			} else if (query === '肇事案' || query === '张皓宁' || query === '张某') {
+				showNews2();
+			} else if (query !== '') {
+				alert('没有找到相关新闻。');
+			}
+		}
+
+		document.getElementById('searchInput').addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				performSearch();
+			}
+		});
+
+		window.onload = function() {
+			showNews1();
+		};
+	</script>
+</body>
+</html>
