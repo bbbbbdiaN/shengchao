@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>声潮论坛 - 新闻资讯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e6e6e6;
+            font-family: "微软雅黑", "宋体", Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.8;
+        }
+        .container {
+            width: 960px;
+            margin: 10px auto;
+            background-color: #fff;
+            border: 1px solid #b3b3b3;
+            border-top: 3px solid #336699;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #336699;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        .header .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: #cce0ff;
+            margin-left: 10px;
+        }
+        .header .user-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            font-size: 14px;
+        }
+        .header .user-area a {
+            color: #fff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .header .user-area a:hover {
+            color: #ffcc00;
+        }
+        .nav {
+            background: #f0f0f0;
+            border-bottom: 1px solid #ccc;
+            padding: 8px 20px;
+            font-size: 13px;
+        }
+        .nav a {
+            color: #336699;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .nav .breadcrumb {
+            color: #666;
+        }
+        .search-bar {
+            padding: 15px 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-bar input[type="text"] {
+            width: 350px;
+            padding: 6px 10px;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        .search-bar button {
+            padding: 6px 15px;
+            background: #336699;
+            color: white;
+            border: 1px solid #225588;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .search-bar button:hover {
+            background: #2a5a8c;
+        }
+        .search-hint {
+            font-size: 12px;
+            color: #888;
+            margin-left: 10px;
+        }
+        .main-content {
+            padding: 25px 30px;
+        }
+        .news-article h2 {
+            font-size: 22px;
+            color: #222;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .news-meta {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .news-meta span {
+            margin-right: 20px;
+        }
+        .news-body p {
+            text-indent: 2em;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .news-body .quote {
+            border-left: 3px solid #336699;
+            padding-left: 15px;
+            margin: 20px 0;
+            color: #555;
+            font-style: italic;
+            text-indent: 0;
+        }
+        .divider {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 30px 0;
+        }
+        .recommend {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+        .recommend h4 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .recommend ul {
+            list-style: none;
+            padding: 0;
+        }
+        .recommend ul li {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+        .recommend ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #336699;
+        }
+        .recommend ul li a {
+            color: #336699;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .recommend ul li a:hover {
+            color: #cc0000;
+        }
+        .recommend ul li span.fake-link {
+            color: #888;
+            text-decoration: underline;
+            cursor: not-allowed;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #888;
+            font-size: 12px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="logo">
+                声潮论坛<span> - 听见声音，汇聚思潮</span>
+            </div>
+            <div class="user-area">
+                <a href="#" onclick="event.preventDefault();">注册</a>
+                <a href="#" onclick="event.preventDefault();">登录</a>
+            </div>
+        </div>
+
+        <!-- 导航 -->
+        <div class="nav">
+            <a href="#">首页</a> &gt; <a href="#">新闻资讯</a> &gt; <span class="breadcrumb">北山农讯</span>
+        </div>
+
+        <!-- 搜索栏 -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="输入关键词搜索新闻...">
+            <button onclick="performSearch()">搜 索</button>
+            <span class="search-hint">（试试搜索"孔雀镇"或"肇事案"）</span>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="main-content" id="newsContent">
+            <div class="news-article">
+                <h2>暴雨夜牛棚坍塌，老人牵牛"借宿"后杳无音信</h2>
+                <div class="news-meta">
+                    <span>来源：《北山农讯》</span>
+                    <span>发布时间：2017-08-03</span>
+                    <span>记者：马千里</span>
+                </div>
+                <div class="news-body">
+                    <p>寻人：孙老栓，男，74岁，北山县鹰嘴岩村独居五保户，左腿微跛，养有一头老黄牛。</p>
+                    <p>8月1日晚，鹰嘴岩村遭遇罕见短时强降雨，孙老栓家中的土坯牛棚因年久失修发生部分坍塌。老人心疼其饲养多年的耕牛，连夜将牛牵出，对前来帮忙的村长说"我去前村老沈家牛圈借宿一晚"，随后冒雨消失在村道中。</p>
+                    <p>然而，前村老沈家并未见到老人。次日清晨，搜救人员在距村两里外的废弃砖窑发现牛的蹄印和粪便，但不见老人踪迹。老人离家时仅穿一件单薄汗衫，未带任何身份证件。2017年当地已对危房进行过排查，但老人固执不愿修缮。如今牛已自行回家，人却不知去向，全村老少皆担忧老人或因雨后路滑坠入周边废弃水井。</p>
+                    <div class="quote">
+                        <p>"老孙头一辈子没出过远门，无儿无女，就那头牛跟他最亲。牛都回来了，他还能去哪儿呢？"——鹰嘴岩村村长面对记者时满脸愁容。</p>
+                    </div>
+                    <p>搜救工作仍在继续，但72小时黄金救援时间已过。村里人自发组织了搜寻队，沿着村道、废弃砖窑、周边沟壑和几口废弃水井逐一排查。老人平时喜欢在村口老槐树下抽旱烟，如今老槐树下空无一人，只有那只老黄牛偶尔走回坍塌的牛棚旧址，低低地叫唤几声。</p>
+                </div>
+
+                <hr class="divider">
+
+                <div class="recommend">
+                    <h4>📰 为您推荐其他新闻</h4>
+                    <ul>
+                        <li><span class="fake-link" onclick="alert('该新闻暂时无法访问或已删除')">北山县开展农村危房排查专项行动，多户村民获修缮补贴</span></li>
+                        <li><span class="fake-link" onclick="alert('该新闻暂时无法访问或已删除')">鹰嘴岩村将启动废弃水井填埋工程，预计年内完工</span></li>
+                        <li><a onclick="alert('跳转至相关新闻')">孔雀镇一农民深夜离奇失踪，家属悬赏寻人至今未果</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            声潮论坛 © 2009-2020 | Powered by TideBBS 2.0 | 联系管理员: admin@shengchao.com
+        </div>
+    </div>
+
+    <script>
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query === '孙老栓' || query === '北山' || query === '鹰嘴岩' || query === '牛棚') {
+                // 已在本页面
+            } else if (query !== '') {
+                alert('没有找到相关新闻。');
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>
