@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>声潮论坛 - 用户中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e6e6e6;
+            font-family: "微软雅黑", "宋体", Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 960px;
+            margin: 10px auto;
+            background-color: #fff;
+            border: 1px solid #b3b3b3;
+            border-top: 3px solid #336699;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #336699;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        .header .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: #cce0ff;
+            margin-left: 10px;
+        }
+        .header .user-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            font-size: 14px;
+        }
+        .header .user-area a {
+            color: #fff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .header .user-area a:hover {
+            color: #ffcc00;
+        }
+        .nav {
+            background: #f0f0f0;
+            border-bottom: 1px solid #ccc;
+            padding: 8px 20px;
+            font-size: 13px;
+        }
+        .nav a {
+            color: #336699;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .nav .breadcrumb {
+            color: #666;
+        }
+        .search-bar {
+            padding: 15px 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-bar input[type="text"] {
+            width: 350px;
+            padding: 6px 10px;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        .search-bar button {
+            padding: 6px 15px;
+            background: #336699;
+            color: white;
+            border: 1px solid #225588;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .search-bar button:hover {
+            background: #2a5a8c;
+        }
+        .main-content {
+            padding: 20px;
+            min-height: 500px;
+        }
+        .profile-header {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .profile-avatar img {
+            width: 120px;
+            height: 120px;
+            border: 2px solid #aaa;
+            object-fit: cover;
+        }
+        .profile-info {
+            flex: 1;
+        }
+        .profile-info h2 {
+            font-size: 22px;
+            color: #336699;
+            margin-bottom: 5px;
+        }
+        .profile-info .detail {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 3px;
+        }
+        .profile-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: #fcfcfc;
+        }
+        .profile-section h3 {
+            font-size: 15px;
+            color: #336699;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .locked-item {
+            color: #888;
+            font-style: italic;
+        }
+        .locked-item a {
+            color: #336699;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #336699;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .post-item {
+            padding: 8px 0;
+            border-bottom: 1px dotted #ddd;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .post-item:last-child {
+            border-bottom: none;
+        }
+        .post-item .post-time {
+            color: #888;
+            font-size: 12px;
+        }
+        .post-item a {
+            color: #336699;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .modal-content {
+            background: white;
+            width: 600px;
+            margin: 50px auto;
+            padding: 25px;
+            border: 2px solid #336699;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-content h3 {
+            color: #336699;
+            margin-bottom: 10px;
+        }
+        .modal-content .post-meta {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .modal-content .post-body {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .modal-content .comment {
+            background: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #336699;
+            font-size: 13px;
+        }
+        .modal-content .comment .comment-user {
+            font-weight: bold;
+            color: #336699;
+        }
+        .modal-content .comment .comment-time {
+            color: #999;
+            font-size: 11px;
+        }
+        .modal-content img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .close-modal {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+        }
+        .friend-chat-btn {
+            color: #336699;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .chat-container {
+            padding: 15px 0;
+        }
+        .chat-bubble {
+            background: #f0f7ff;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .chat-bubble .chat-name {
+            font-weight: bold;
+            color: #336699;
+        }
+        .chat-bubble img {
+            max-width: 200px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+        }
+        .diary-entry {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .diary-entry h4 {
+            color: #336699;
+            margin-bottom: 5px;
+        }
+        .diary-entry .diary-date {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .diary-entry p {
+            text-indent: 2em;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        .flip {
+            display: inline-block;
+            transform: scaleX(-1);
+        }
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #888;
+            font-size: 12px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .error-msg {
+            color: red;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+            display: none;
+        }
+        .success-msg {
+            color: green;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">声潮论坛<span> - 听见声音，汇聚思潮</span></div>
+            <div class="user-area" id="userArea">
+                <a href="#" onclick="event.preventDefault(); openLoginModal()">登录</a>
+                <a href="#" onclick="event.preventDefault(); alert('注册功能暂未开放')">注册</a>
+            </div>
+        </div>
+        <div class="nav">
+            <a href="#" onclick="location.reload()">首页</a> &gt; <span class="breadcrumb">用户中心 > 虾米3716</span>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="输入关键词搜索...">
+            <button onclick="performSearch()">搜 索</button>
+            <span class="search-hint" style="font-size:12px;color:#888;margin-left:10px;">（可搜索"孔雀镇""肇事案"等）</span>
+        </div>
+
+        <div class="main-content" id="profileContent">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="https://i.imgs.ovh/2026/07/09/85f02898b52371c1c0c785aef03044aa.png" alt="头像">
+                </div>
+                <div class="profile-info">
+                    <h2>虾米3716</h2>
+                    <p class="detail">注册时间：2014-03-15</p>
+                    <p class="detail">最后登录：2018-08-29</p>
+                    <p class="detail">发帖：* | 回复：*</p>
+                    <p class="detail">个人简介：这家伙很懒，什么都没留下...</p>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>🔒 私密日记</h3>
+                <p class="locked-item" id="diaryLock">
+                    <a onclick="checkLoginForDiary()">点击查看</a>
+                </p>
+                <div id="diaryContent" class="hidden"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>最近发布的帖子</h3>
+                <div id="postList"></div>
+            </div>
+
+            <div class="profile-section">
+                <h3>好友列表</h3>
+                <p>🎮 <span class="friend-chat-btn" onclick="checkLoginForChat()">周粥（周嘉俊）</span></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            声潮论坛 © 2009-2018 | Powered by TideBBS 2.0 | 联系管理员: admin@shengchao.com
+        </div>
+    </div>
+
+    <!-- 登录弹窗 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h3>用户登录</h3>
+            <input type="text" id="loginUser" placeholder="用户名"><br>
+            <input type="password" id="loginPass" placeholder="密码"><br>
+            <button onclick="attemptLogin()">登 录</button>
+            <div id="loginError" class="error-msg">用户名或密码错误</div>
+            <div id="loginSuccess" class="success-msg">登录成功！</div>
+            <div style="text-align:center; margin-top:10px; font-size:12px; color:#888;">
+                没有账号？<a href="#" onclick="alert('注册功能暂未开放')">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帖子详情弹窗 -->
+    <div id="postDetailModal" class="modal">
+        <div class="modal-content" id="postDetailContent">
+            <span class="close-modal" onclick="closePostDetail()">&times;</span>
+            <div id="postDetailInner"></div>
+        </div>
+    </div>
+
+    <!-- 好友对话弹窗 -->
+    <div id="chatModal" class="modal">
+        <div class="modal-content" id="chatModalContent">
+            <span class="close-modal" onclick="closeChatModal()">&times;</span>
+            <h3>与 周粥 的对话记录</h3>
+            <div id="chatArea"></div>
+        </div>
+    </div>
+
+    <!-- 私密日记密码弹窗 -->
+    <div id="diaryPwdModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeDiaryPwdModal()">&times;</span>
+            <h3>请输入私密日记密码</h3>
+            <input type="password" id="diaryPass" placeholder="密码"><br>
+            <button onclick="checkDiaryPassword()">确 认</button>
+            <div id="diaryPwdError" class="error-msg">密码错误</div>
+            <p style="margin-top:10px; font-size:12px; color:#336699; cursor:pointer;" onclick="showForgotPwd()">忘记密码？</p>
+            <div id="forgotPwdArea" class="hidden" style="margin-top:10px;">
+                <p>问题1：哥哥的出生年月日（格式：YYYYMMDD）</p>
+                <input type="text" id="answer1" placeholder="YYYYMMDD"><br>
+                <p>问题2：弟弟的出生年月日（格式：YYYYMMDD）</p>
+                <input type="text" id="answer2" placeholder="YYYYMMDD"><br>
+                <button onclick="verifyAnswers()">提 交</button>
+                <div id="answerError" class="error-msg">答案错误</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLoggedIn = false;
+        let currentUser = '';
+
+        const posts = [
+            { id:1, title:'新人报到，请多关照', time:'2014-03-16 20:35', body:'<p>大家好，我是虾米3716。朋友推荐我来这个论坛，说这里好玩的东西很多。我爸最近刚买了一台电脑，我是偷偷用他的账号上的网，嘿嘿。还在上小学，不太会用，大家多多指教！</p>', comments:[] },
+            { id:2, title:'求助！大家设置密码有什么诀窍吗？', time:'2014-04-02 18:12', body:'<p>我想给我的账号设一个安全的密码，但我老是记不住太复杂的。大家有什么好办法吗？既能安全又好记的那种。</p>', comments:[
+                { user:'老坛酸菜', time:'2014-04-02 18:45', text:'我用的是自己名字拼音首字母 + 出生日期 + 幸运数字，比如我叫王大锤，生日1月1日，幸运数字7，密码就是wdc01017。好记又不容易被猜出来。' },
+                { user:'虾米3716', time:'2014-04-02 19:02', text:'好主意哎！这样确实很好记！' },
+                { user:'密码学爱好者', time:'2014-04-02 20:30', text:'楼上那个格式太容易被破解了，稍微熟悉你的人就能试出来。建议你在后面再加一串特殊数字，比如那种难以忘怀的纪念日、重要事件日期之类的。只有自己知道，别人猜不到。' },
+                { user:'虾米3716', time:'2014-04-02 20:45', text:'有道理！那就这样：名字缩写 + 生日 + 幸运数 + 一个特别的日子。这样应该够安全了！' }
+            ]},
+            { id:3, title:'今天的运气也太好了吧！', time:'2014-06-06 19:20', body:'<p>今天是6月6号，我忘记写数学作业了，结果老师居然没检查！轻轻松松就过关了哈哈。</p><p>放学后我去校门口小卖部花五毛钱抽奖，居然抽到了一个玩具小汽车！老板说那个是中奖率最低的。</p><p>我发现一个规律，每次到6号的时候运气就特别好，以前几次6号也都很顺。六六大顺嘛，6真是个好数字，以后6就是我的幸运数字了！</p>', comments:[] },
+            { id:4, title:'弟弟出生了！', time:'2014-11-22 09:15', body:'<p>昨天11月21号，我弟弟出生了！妈妈在医院生了好久，爸爸一直在外面走来走去。我当哥哥了！</p><p>弟弟小小的，红红的，有点皱巴巴的，但是好可爱。爸爸说等妈妈出院回家，我就可以帮忙照顾弟弟了。</p><p>2014年11月21日，这一天我永远不会忘记。真是一个难以忘怀的日子。</p>', comments:[] },
+            { id:5, title:'生日', time:'2015-04-30 21:00', body:'<p>今天我11岁啦！爸妈给我买了一个大蛋糕，是奶油蛋糕，上面插了蜡烛。我许了一个愿望，但是不能说出来，说出来就不灵了。</p><p>弟弟已经5个月大了，今天他一直盯着蛋糕看，还伸手想抓，好好笑。</p><p>蛋糕很好吃，奶油很甜。今天过得很开心！</p>', comments:[] },
+            { id:6, title:'弟弟抓周了', time:'2015-11-22 15:30', body:'<p>今天弟弟满一岁，家里办了抓周。奶奶在桌上铺了红布，摆了计算器、字典、尺子、钞票还有一个小足球。弟弟先抓了计算器，然后又抓了小足球，大家说以后文武双全。</p><p>后来他们都围着弟弟玩，我站在旁边看了一会儿，就回房间写作业了。其实作业早就写完了，但也没什么事可做。</p><p>当哥哥还挺好的。</p>', comments:[] },
+            { id:7, title:'有点烦', time:'2016-06-01 20:15', body:'<p>有点烦。</p><p><img src="https://i.imgs.ovh/2026/07/12/0c35c8a7c90198d941849838606053cc.jpg" alt="配图"></p>', comments:[
+                { user:'周粥', time:'2016-06-01 20:32', text:'你不是作业都写完了吗？还写啥？' },
+                { user:'虾米3716', time:'2016-06-01 20:35', text:'我没事可做。' },
+                { user:'周粥', time:'2016-06-01 20:40', text:'最近附近不是开了一家新商场吗？时间还早，为啥不让你爸妈带你去？' },
+                { user:'虾米3716', time:'2016-06-01 20:43', text:'我爸妈正在照顾弟弟呢。' }
+            ]},
+            { id:8, title:'有没有好玩的游戏推荐？', time:'2016-07-23 01:28', body:'<p>晚上睡不着，无聊死了。大家有没有什么好玩的游戏推荐？最好是那种不用动脑子，能一直刷的那种。反正也睡不着，不如打打游戏。</p>', comments:[
+                { user:'游戏达人', time:'2016-07-23 01:35', text:'那必须推荐《传奇霸业》啊，挂机刷怪爽得很，我天天挂到半夜。装备爆率高，升级快，适合你这种失眠人士。' },
+                { user:'虾米3716', time:'2016-07-23 01:40', text:'我去看看，谢谢。' },
+                { user:'夜猫子', time:'2016-07-23 02:15', text:'楼主这么晚还不睡，明天不上学吗？' },
+                { user:'虾米3716', time:'2016-07-23 02:18', text:'放暑假了。' },
+                { user:'夜猫子', time:'2016-07-23 02:25', text:'那也早点睡吧，小孩子熬夜长不高。' },
+                { user:'虾米3716', time:'2016-07-23 02:30', text:'嗯。打完这关就睡。' }
+            ]},
+            { id:9, title:'羊羊，对不起', time:'2017-02-03 18:42', body:'<p>今年回老家过年，本来计划下午两点出发，结果弟弟突然哭闹个不停，怎么哄都不行。妈说等他哭完再走，结果这一折腾就耽误了快一个小时。等我们真正出发的时候，天都快黑了。</p><p>更倒霉的是，平时走的那条路不知道为什么堵了，爸说没办法，只能绕一条小路。那条路特别窄，两边全是树，黑漆漆的，我虽然和弟弟一起坐后排，但心里还是莫名发毛。</p><p>车开着开着，前面突然窜出一个白影，爸猛踩刹车但还是撞上了。我们都吓傻了。爸下车看了半天，结果发现撞到了一只羊，也不知道是谁家走散的。妈妈说真晦气，爸爸跟妈妈商量了一下，把羊抬到了后备箱里，说晚上回去可以吃羊肉了，说完他俩还笑了笑。我一点都不觉得好笑。</p><p>那可是一条命啊。我们应该找到羊的主人，好好道歉才对。</p><p>要不是弟弟拖拖拉拉，我们根本不会走夜路，也不会撞上那只羊。都怪弟弟。</p><p>羊羊，对不起。我们家不是故意的。</p>', comments:[] },
+            { id:10, title:'考试成绩出来了', time:'2018-03-22 19:05', body:'<p>初三下学期的模拟考试成绩下来了。</p><p>语文68，数学52，英语45。</p><p>班级排名掉到三十多名了。以前我数学能考90多的，现在连及格都难。老师找我谈话，问我是不是家里有什么事。我说没有。但老师说，这已经是中考前最后一次模拟了，让我自己好好想想。</p><p>总不能说我就是学不进去吧。现在满脑子都是别的事，翻开书就发呆，晚上还是睡不着。</p><p>爸妈还不知道成绩，估计知道了又要说"你看看你现在像什么样子"。算了，说就说吧，反正他们眼里只有弟弟。</p><p>中考怎么办，我也不知道。</p>', comments:[
+                { user:'周粥', time:'2018-03-22 19:30', text:'我数学也没及格，咱俩难兄难弟。不过中考还有三个月，别放弃啊。' },
+                { user:'虾米3716', time:'2018-03-22 19:35', text:'嗯。我尽量。' },
+                { user:'老坛酸菜', time:'2018-03-22 21:10', text:'小兄弟，成绩跌了可以再追回来。看你之前帖子挺活跃的，最近是不是有什么心事？有什么事可以跟论坛上的人说说，大家都是朋友。' },
+                { user:'虾米3716', time:'2018-03-22 21:22', text:'谢谢，没什么事。就是学不进去。' }
+            ]},
+            { id:11, title:'毕业了，迷茫', time:'2018-06-20 14:10', body:'<p>初中毕业了，成绩不太好，估计考不上高中。家里最近气氛很奇怪，我也不想待在家里了。想出去打工，大家有什么推荐吗？适合我这种没经验的。</p>', comments:[
+                { user:'打工仔阿强', time:'2018-06-20 14:35', text:'小兄弟，没成年的话很多地方不收的。实在想走的话，去南方沿海城市看看，那边工厂多，有些不太查年龄。不过你一个人去要小心，最好先存点钱，别到时候露宿街头。' },
+                { user:'虾米3716', time:'2018-06-20 14:42', text:'南方沿海？比如哪里？' },
+                { user:'打工仔阿强', time:'2018-06-20 14:50', text:'广州、深圳、东莞都行，那边机会多。广州白云区那边城中村房租便宜，工厂也集中，你可以先从那开始。' },
+                { user:'虾米3716', time:'2018-06-20 14:55', text:'谢谢，我知道了。' },
+                { user:'走过路过', time:'2018-06-20 16:20', text:'楼主想清楚啊，一个人去外地很苦的。没亲没故的，被欺负了都没人帮。要不先跟家里人好好谈谈？' },
+                { user:'虾米3716', time:'2018-06-20 16:28', text:'谈过了。谈不通。' }
+            ]},
+            { id:12, title:'决定了', time:'2018-08-28 22:15', body:'<p>谢谢大家这几年的陪伴。有些事情我必须去面对，有些路只能自己走。</p><p>我可能有一段时间不会上论坛了。别担心我，我会好好的。</p><p>再见。</p>', comments:[
+                { user:'周粥', time:'2018-08-28 22:40', text:'你去哪？怎么突然说这个？' },
+                { user:'虾米3716', time:'2018-08-28 22:42', text:'没事，就是出去走走。' },
+                { user:'周粥', time:'2018-08-28 22:45', text:'你吓到我了。有什么事情可以跟我说，别一个人扛着。' },
+                { user:'虾米3716', time:'2018-08-28 22:48', text:'放心吧，粥粥。你是我最好的朋友。保重。' }
+            ]}
+        ];
+
+        function renderPostList() {
+            const listDiv = document.getElementById('postList');
+            let html = '';
+            posts.forEach(post => {
+                html += `<div class="post-item">
+                    <a onclick="showPostDetail(${post.id})">${post.title}</a>
+                    <span class="post-time">${post.time.split(' ')[0]}</span>
+                </div>`;
+            });
+            listDiv.innerHTML = html;
+        }
+        renderPostList();
+
+        function showPostDetail(id) {
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+            let inner = `<h3>${post.title}</h3><div class="post-meta">发布时间：${post.time} | 作者：虾米3716</div><div class="post-body">${post.body}</div>`;
+            if (post.comments.length > 0) {
+                inner += '<h4 style="color:#336699; margin-top:15px;">回复：</h4>';
+                post.comments.forEach(c => {
+                    inner += `<div class="comment"><div class="comment-user">${c.user} <span class="comment-time">${c.time}</span></div><div>${c.text}</div></div>`;
+                });
+            }
+            document.getElementById('postDetailInner').innerHTML = inner;
+            document.getElementById('postDetailModal').style.display = 'block';
+        }
+        function closePostDetail() {
+            document.getElementById('postDetailModal').style.display = 'none';
+        }
+
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginSuccess').style.display = 'none';
+        }
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+        function attemptLogin() {
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            if (user === '' || pass === '') {
+                document.getElementById('loginError').textContent = '用户名和密码不能为空';
+                document.getElementById('loginError').style.display = 'block';
+                return;
+            }
+            if (user === '虾米3716' && pass === 'zhn0430620141121') {
+                isLoggedIn = true;
+                currentUser = '虾米3716';
+                document.getElementById('userArea').innerHTML = '<span style="color:#fff;">欢迎，虾米3716</span> <a href="#" onclick="logout()">退出</a>';
+                document.getElementById('loginSuccess').style.display = 'block';
+                document.getElementById('loginError').style.display = 'none';
+                setTimeout(() => { closeLoginModal(); }, 800);
+            } else {
+                document.getElementById('loginError').textContent = '用户名或密码错误，请重试。';
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('loginSuccess').style.display = 'none';
+            }
+        }
+        function logout() {
+            isLoggedIn = false;
+            currentUser = '';
+            document.getElementById('userArea').innerHTML = '<a href="#" onclick="event.preventDefault(); openLoginModal()">登录</a> <a href="#" onclick="event.preventDefault(); alert(\'注册功能暂未开放\')">注册</a>';
+        }
+
+        function checkLoginForDiary() {
+            if (!isLoggedIn) {
+                alert('请先登录虾米3716账号');
+                openLoginModal();
+                return;
+            }
+            openDiaryPwdModal();
+        }
+        function openDiaryPwdModal() {
+            document.getElementById('diaryPwdModal').style.display = 'block';
+            document.getElementById('diaryPass').value = '';
+            document.getElementById('diaryPwdError').style.display = 'none';
+            document.getElementById('forgotPwdArea').classList.add('hidden');
+            document.getElementById('answer1').value = '';
+            document.getElementById('answer2').value = '';
+            document.getElementById('answerError').style.display = 'none';
+        }
+        function closeDiaryPwdModal() {
+            document.getElementById('diaryPwdModal').style.display = 'none';
+        }
+        function checkDiaryPassword() {
+            const pwd = document.getElementById('diaryPass').value.trim();
+            if (pwd === '2004043020141121') {
+                closeDiaryPwdModal();
+                showDiaryContent();
+            } else {
+                document.getElementById('diaryPwdError').style.display = 'block';
+            }
+        }
+        function showForgotPwd() {
+            document.getElementById('forgotPwdArea').classList.remove('hidden');
+        }
+        function verifyAnswers() {
+            const a1 = document.getElementById('answer1').value.trim();
+            const a2 = document.getElementById('answer2').value.trim();
+            if (a1 === '20040430' && a2 === '20141121') {
+                closeDiaryPwdModal();
+                showDiaryContent();
+            } else {
+                document.getElementById('answerError').style.display = 'block';
+            }
+        }
+
+        function showDiaryContent() {
+            const diaryHTML = `
+                <div class="diary-entry"><h4>弟弟来了</h4><div class="diary-date">2014-11-23</div><p>弟弟是前天出生的。那天放学，爸来接我，直接带我去了医院。妈躺在病床上，看起来很累，但一直在笑。爸抱着一个小东西，朝我招手，说快来看你弟弟。</p><p>我凑过去看，他真的好小，比我想象的小多了。脸红红的，皱巴巴的，眼睛还没睁开。我伸出一根手指碰了碰他的手，他突然攥住了我的手指，攥得很紧。爸在旁边笑，说你看，弟弟喜欢你。</p><p>我也不知道为什么，那一瞬间鼻子就酸了。可能是因为第一次觉得，这个世界上有一个人，跟我流着一样的血。他以后会长大，会跟在我后面跑，会叫我哥哥。我会把我收藏的弹珠分他一半，教他打游戏，带他去学校后面的小卖部抽奖。</p><p>妈妈问我想给弟弟取什么小名，我说就叫小宝吧。他们笑我土，但最后还是沿用了这个名字。</p><p>小宝，欢迎来到这个世界。以后哥哥罩着你。</p></div>
+                <div class="diary-entry"><h4>小宝会笑了</h4><div class="diary-date">2015-02-14</div><p>今天发生了一件大事：小宝冲我笑了。</p><p>事情的经过是这样的。妈在厨房做饭，让我看着小宝。我趴在婴儿床边上，用两个手把自己的脸挤成鬼脸，挤了好几次，他突然就笑了。不是那种吃饱了打嗝的咧嘴，是真的在笑。眼睛眯成两条缝，嘴巴咧开，露出粉红色的牙床。口水顺着下巴流下来，亮晶晶的。</p><p>我激动得差点叫出来，但怕吓到他，只好捂住嘴。然后我又做了好几次鬼脸，他又笑了。我们就这么一来一回玩了快十分钟。</p><p>妈后来进来看到了，说弟弟跟我亲。我心里得意极了，但嘴上只说了一句还行吧。</p><p>其实心里在放烟花。</p></div>
+                <div class="diary-entry"><h4>今天是我生日</h4><div class="diary-date">2015-04-30</div><p>今天满十一岁。妈买了一个奶油蛋糕，上面插了蜡烛。蛋糕很大，白色的奶油上面用巧克力酱写了我的名字。妈说我今年是本命年，所以要好好过一过。其实我也不太懂什么叫本命年，但蛋糕好吃就行。</p><p>我闭上眼睛许了一个愿，然后在心里说：希望小宝快点长大，这样就能陪我一起打游戏了。</p><p>睁开眼睛的时候，发现小宝正趴在茶几边上，伸手想去抓蛋糕上的蜡烛。妈赶紧把他抱起来，他还不乐意，两只小短腿在空中蹬来蹬去，嘴巴瘪成一条线，眼看就要哭了。大家都笑了。</p><p>爸说，等明年生日，小宝就能自己坐着吃蛋糕了。妈说，到时候你教弟弟写贺卡。我说好。</p><p>蛋糕很好吃，奶油很甜。我今天真的很开心。</p><p>但不知道为什么，晚上躺在床上的时候，突然想到一个事情：今天好像没有人问我许了什么愿。</p></div>
+                <div class="diary-entry"><h4>没人理我</h4><div class="diary-date">2015-11-22</div><p>今天小宝满一岁，家里搞了抓周。奶奶铺了红布，上面摆了计算器、字典、尺子、钞票、小算盘，还有一个小足球。小宝先是抓了计算器，大家说以后能当会计。然后他又抓了小足球，大家又说文武双全。反正他不管抓什么，都有一堆人围着说好话。</p><p>我站在人群外面，踮起脚看了看，然后又退回来了。</p><p>后来他们开始陪小宝玩，把他抱来抱去，逗他笑。没有人注意我。我在客厅站了一会儿，觉得没什么意思，就自己回房间了。</p><p>作业其实早就写完了。我把书包里的书倒出来，按大小重新排列了一遍，然后又倒出来，按科目重新排列了一遍。弄完之后，我又拿起笔，在草稿纸上随便画了一些线条，画着画着，发现自己画了一扇窗户。</p><p>外面的笑声很大，很热闹。我这里很安静。</p><p>安静的像另一个世界。</p></div>
+                <div class="diary-entry"><h4>睡不着</h4><div class="diary-date">2016-03-07</div><p>很久没写日记了。最近晚上总是睡不着。躺在床上，闭上眼睛，脑子里就开始放电影。放的都是白天的事，或者很久以前的事，乱七八糟的，没有头也没有尾。有时候数羊，数到两三百只还是醒着。有时候背课文，背到一半就走神了。</p><p>后来我发现在电脑上打游戏会好一点。打着打着人就累了，倒头就能睡。但最近打游戏也不怎么管用了。打的时候很投入，打完一关，脑子里又开始放电影。于是只能再打一关，再打一关。打到半夜，眼睛酸得睁不开，脑子还是清醒的。</p><p>我在游戏里认识了一个人，不知道他叫什么名字，只知道他的ID是一串看不懂的字母。我们从来不聊现实的事，只聊装备、副本、攻略。打完一局，说一声明天见，就各自下线。他不会问我最近怎么了，我也不会问他。这种感觉很轻松，像穿了一件很宽松的衣服。</p><p>白天上课的时候老打瞌睡，被数学老师点了好几次名。他问我昨晚干嘛去了，我说写作业写太晚了。他没有追问，大概也不想追问。</p><p>反正也没有人在乎一个坐在最后一排的学生打不打瞌睡。</p></div>
+                <div class="diary-entry"><h4>周粥</h4><div class="diary-date">2016-09-12</div><p>周粥是我唯一还在联系的朋友。其实我们也不怎么见面了，就是在论坛上偶尔聊两句。他有时候会问我最近怎么样，我说还行。他说你好像变了很多，以前跟个话痨似的，现在像个闷葫芦。我说可能是长大了吧。</p><p>其实我知道他说的是真的。以前我话很多，上课讲小话被老师罚站，下课第一个冲出教室。现在我可以一天不说话，坐在座位上，看着窗外发呆。</p><p>不是不想说，是不知道说什么。跟周粥说家里的事？他也帮不上忙。跟爸妈说？他们眼里只有小宝。跟老师说？老师只会让我好好学习。</p><p>有些话，说出来比不说出来更让人难受。那不如不说。</p><p>就这样吧。</p></div>
+                <div class="diary-entry"><h4>羊</h4><div class="diary-date">2017-02-04</div><p>过年回老家的时候，我们家撞了一只羊。</p><p>不是在路上看到羊，是真真切切地撞上去了。爸开的车，天很黑，路很窄，羊从树丛里冲出来的时候像一道白光。爸猛踩刹车，但还是晚了。咚的一声，很闷，像什么东西塌了。那个声音我这几天一直在脑子里重放。</p><p>爸下车看了很久，回来的时候脸色不太好看，但嘴上说的是没事，撞了一只羊。妈说真晦气，后来他们商量了一下，把羊抬到后备箱里。我在车里坐着，没敢下去看。小宝在后排睡着了，什么都不知道。</p><p>后来爸还开玩笑说晚上回去可以吃羊肉了。妈也笑了。我没笑。我当时只觉得心里堵得慌，说不出是什么感觉。不是害怕，也不是生气，就是堵，像胸口压了一块石头。</p><p>第二天一早，爸妈一大早就起来了，说要去地里干活。妈让我留在家里看着弟弟，还从外面把院门锁了。我觉得奇怪，天都没亮，地里能干什么活？</p><p>我等了一会儿，实在坐不住，就搬了梯子翻墙出去了。我跑了好一阵才找到他们。我不敢靠太近，远远地看着，他们抬着一个东西，正往一个坑里放。那个形状，那个轮廓——</p><p>我蹲在那里，腿软了，一点声音都不敢发出来。不知道蹲了多久，我才慢慢地退回去，翻墙回屋。小宝还在睡，什么都不知道。</p><p>那天晚上我把头蒙在被子里，一直在发抖。不是冷，是停不下来。</p></div>
+                <div class="diary-entry"><h4>我不能看</h4><div class="diary-date">2017-02-05</div><p>一整天没有吃饭。妈问我怎么了，我说感冒了。她摸了摸我的额头，没说什么。我低着头不敢看她。我怕她看出什么。</p><p>我昨天晚上一直在想，如果能倒回去多好。如果那天弟弟没有哭闹，我们没有耽误那一个小时，就不会走那条黑路。如果没走那条黑路，就不会撞上。如果没有撞上，我就不会看到。如果我没有看到——</p><p>我什么都看到了。我不应该看到的。</p><p>那根本不是什么羊。哪有羊是那样的。他们居然还能开玩笑说吃羊肉。他们是装的。他们一定知道。他们只是假装成什么事都没发生，假装那只是一只倒霉的羊。</p><p>怎么办。我们该去自首的。必须去。那是人，那是一个人。不管他是谁家的，不管他为什么会在那条路上，他都应该有一个名字，有一个家，他的家人现在肯定在找他，像那些寻人启事上写的一样，天天在找。</p><p>如果没有弟弟就好了。如果没有他，我们就不会走那条路。如果没有他，我也不会被丢在一边，像一件旧衣服。我会好好上学，不会半夜打游戏打到自己都不知道自己在干嘛。爸妈也不会撞上一只……撞上一个人。</p><p>我们一家人本来可以很幸福的。本来可以的。</p><p>但晚了。已经晚了。全完了。</p></div>
+                <div class="diary-entry"><h4>他们才该走</h4><div class="diary-date">2017-02-11</div><p>这几天我想了很多。一开始我觉得是我们全家的错，后来我觉得是我自己的错，我不该追出去看。但现在我不这么想了。</p><p>我去自首？我做了什么？我什么都没有做。车不是我开的，人不是我撞的，埋也不是我埋的。冷落我的是他们，撞人的是他们，装作什么都没发生的也是他们。</p><p>他们还在正常过日子。爸照常上班，妈照常做饭，小宝照常哭哭笑笑。好像那个晚上从来没有发生过。好像后备箱里从来没有放过一具尸体。他们怎么做到的？他们怎么可以这样？</p><p>我不用去替他们承担什么。我受够了。这四年，从我十岁到十四岁，从弟弟出生到现在的每一天，我都是这个家里多余的那个人。吃饭多一双筷子，拍照多占一个角。现在出了事，倒想起我来了？倒开始用那种奇怪的眼神看我了？</p><p>让他们去承担吧。让他们去面对。我不管了。</p><p>他们才是那个夜里抬东西的人。他们才是一家。</p><p>我不是。</p></div>
+                <div class="diary-entry"><h4>要走</h4><div class="diary-date">2018-06-21</div><p>成绩单下来了。没考上。其实早就知道会这样，这一两年基本没学过什么。翻开课本，满脑子都是别的事。</p><p>也好。正好有一个理由可以走。</p><p>我跟周粥说想去广州。他说我疯了，我说可能吧。但疯了好过烂在这里。好过每天晚上看着天花板，听隔壁房间传来的笑声，想着那个晚上，想着树林里那个模糊的轮廓，想着第二天早上爸妈被汗浸湿的后背。</p><p>我已经存了一些钱了。压岁钱攒下来的，平时零花钱没怎么花，还有帮邻居跑腿赚的一点。不算多，但够一张火车票，够刚开始几天的饭钱。</p><p>广州。我以前在地理课本上看过，说那是南方的大城市，有珠江，有白云山。课本上的照片里，街道很宽，楼很高。应该比孔雀镇大多了吧。应该没有人认识我。</p><p>到了那边再说。先找个地方住，然后找份工。洗碗也行，搬货也行，只要能养活自己就行。</p><p>不敢跟周粥说得太详细，他肯定要拦我。也绝对不能跟爸妈说，他们会把我锁起来的。我确定。这一年他们看我的眼神越来越不对了。不是看儿子的眼神，是看一个证人的眼神。</p><p>明天晚上等他们睡着了就走。书包已经收拾好了，藏在床底下。</p></div>
+                <div class="diary-entry"><h4>最后</h4><div class="diary-date">2018-08-28</div><p>今天晚上就走。写完这一篇，这个账号大概再也不会登录了。这台电脑，这间房间，这个叫张皓宁的人，都留在这里吧。</p><p>我买了去广州的票，今天晚上九点四十的车。从孔雀镇的火车站出发，第二天中午就能到。我在网上查了，广州那边有很多工厂招人，有些还包吃住。虽然累一点，但总比待在这个家里强。至少在那里，没有人知道我是谁，没有人用那种眼神看我，没有人需要我假装什么都没发生。</p><p>其实有时候我会想，如果那件事没有发生，我现在会在干什么呢？大概正在跟周粥讨论去哪个高中吧。大概周末会去他家打游戏，他妈做饭很好吃。大概偶尔还会觉得小宝烦，但心里还是喜欢他的。小宝今年四岁了，前几天还会追着我问，哥哥你去哪里呀。我没敢回答。</p><p>他什么都不懂。他是无辜的。我希望他长大后不要知道这些事。但如果有一天他知道了，我希望他明白，我走不是因为他。</p><p>我今天下午偷偷去了一趟后山。什么都没带，就站在那里看了一会儿。远远的，不知道那个地方还在不在。没有走近，也不敢走近。</p><p>再见了，孔雀镇。再见了，周粥。再见了，小宝。</p><p>不要找我。</p></div>
+                <div class="diary-entry"><h4>文件损坏</h4><div class="diary-date">████</div>
+                    <p>我买了一张去<span class="flip">广州</span>的 ██ <span class="flip">车票</span>，从 ███ 出发，明天晚上<span class="flip">六</span>点四十的车。</p>
+                    <p><span class="flip">∩+5B54 ∩+66C0</span> 镇，再见了。</p>
+                    <p>以后不会再回来了。</p>
+                    <p>████ <span class="flip">知</span>道 ██ 事的人，只有我了。</p>
+                    <p>我一走，就再也没人知道了。</p>
+                    <p>明天的一切 <span class="flip">了束结就</span>。</p>
+                    <p><span class="flip">望希</span> 这页 ██ 永远不会 <span class="flip">到看 人被</span>。</p>
+                    <p>██████ 已损坏 ██ 请联系管理员 ██████</p>
+                </div>
+            `;
+            document.getElementById('diaryContent').innerHTML = diaryHTML;
+            document.getElementById('diaryContent').classList.remove('hidden');
+            document.getElementById('diaryLock').classList.add('hidden');
+        }
+
+        function checkLoginForChat() {
+            if (!isLoggedIn) {
+                alert('请先登录虾米3716账号');
+                openLoginModal();
+                return;
+            }
+            openChatModal();
+        }
+        function openChatModal() {
+            document.getElementById('chatModal').style.display = 'block';
+            const chatArea = document.getElementById('chatArea');
+            chatArea.innerHTML = '<div style="text-align:center; padding:30px;">加载中...</div>';
+            setTimeout(() => {
+                chatArea.innerHTML = '<div style="text-align:center; color:#888; padding:20px;">⚠️ 部分内容已丢失。</div>';
+                setTimeout(() => {
+                    let btnsHTML = '<p>请按顺序查看对话片段：</p>';
+                    for (let i=1; i<=6; i++) {
+                        btnsHTML += `<button onclick="showChatFragment(${i})" style="margin:5px; padding:6px 12px;">片段 ${i}</button>`;
+                    }
+                    chatArea.innerHTML += '<div style="margin-top:15px;">' + btnsHTML + '</div>';
+                }, 1200);
+            }, 1000);
+        }
+        function closeChatModal() {
+            document.getElementById('chatModal').style.display = 'none';
+        }
+        const chatFragments = {
+            1: `<div class="chat-bubble"><span class="chat-name">周粥：</span>你是三班的张皓宁吗？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>你怎么知道？！</div><div class="chat-bubble"><span class="chat-name">周粥：</span>我在隔壁四班，周嘉俊。看你帖子说偷偷用你爸电脑上网，笑死了。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>别告诉我班主任！</div><div class="chat-bubble"><span class="chat-name">周粥：</span>放心，咱俩一伙的。以后一起玩。</div>`,
+            2: `<div class="chat-bubble"><span class="chat-name">周粥：</span>生日快乐！今天怎么过的？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>吃蛋糕，爸妈给我买了个大蛋糕。给你看照片！</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>（发送了一张图片）<br><img src="https://i.imgs.ovh/2026/07/09/51296c6d11c81783737d4052305f7494.jpg" alt="蛋糕"></div><div class="chat-bubble"><span class="chat-name">周粥：</span>哇，奶油蛋糕！看起来好好吃！这么多蜡烛，你许了什么愿？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>嘿嘿，谢谢。我许了一个愿，但不能告诉你，说出来就不灵了。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>肯定跟你弟有关吧？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>你怎么知道？</div><div class="chat-bubble"><span class="chat-name">周粥：</span>猜的。你弟今天没抢你风头吧？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>他就在那看着，还伸手想抓蜡烛，被我妈抱走了。还好，今天我是主角。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>那必须的，寿星最大。</div>`,
+            3: `<div class="chat-bubble"><span class="chat-name">周粥：</span>你最近上课怎么老是打瞌睡？被老师点好几次名了。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>有吗？我没注意。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你晚上干嘛去了？偷牛啊？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>没干嘛，就是睡不着。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>后来我发现，玩会儿网游就能睡着。但玩上瘾了又更睡不着了。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>……那你不是白玩了吗。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>是啊。但没办法，不玩更难受。躺在床上脑子里全是乱七八糟的东西。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>想什么呢？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>不知道。就是停不下来。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你要是有什么心事可以跟我说。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>没事。可能就是晚上吃太多了。</div>`,
+            4: `<div class="chat-bubble"><span class="chat-name">虾米3716：</span>周粥，你去论坛搜一下"孔雀岭"这个关键词。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>孔雀岭？什么东西？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>你搜一下就知道了。在搜索框里打进去就行。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>（过了一会儿）搜到了……是一条新闻。说孔雀镇有个农民在孔雀岭那条路上失踪了，家属在找。好可怜啊，大过年的碰上这种事，希望他们能早点找到人吧。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>嗯。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你怎么突然关心这个？这条路是不是你们过年回老家走的那条？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>就是那条。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你下次直接把链接复制给我就行了，省得我打字搜半天。看到那个网址栏了吗？右键点一下，选复制，然后粘贴到对话框里发给我就行。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>好，学会了。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>（发送了一条链接）</div><div class="chat-bubble"><span class="chat-name">周粥：</span>这是什么？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>一条新闻。你看看。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>（点开链接）暴雨夜牛棚坍塌，老人牵牛"借宿"后杳无音信……北山县的，孙老栓，74岁。这老人家好可怜啊，下那么大的雨，连牛棚都塌了，还想着先把牛牵出来。结果牛自己回家了，人不见了。你说这牛也是挺有灵性的，可惜老人找不到了。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>嗯。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你怎么老看这些失踪的新闻？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>随手看到的。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>（连续发送了三条不同的寻人启事链接）</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你怎么了？怎么给我发这么多寻人启事？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>我不知道。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>就是忍不住。不发的话心里很难受。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>我看到这些也很难受。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你别吓我。到底出什么事了？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>没事。算了。不发了。</div>`,
+            5: `<div class="chat-bubble"><span class="chat-name">周粥：</span>你认真的？要去广州？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>认真的。考不上高中，留在这里也没什么意思。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>可是你才多大？那边你有认识的人吗？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>没有。但总比待在这个家里强。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你爸妈知道吗？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>不知道。你也别跟别人说。就你一个人知道。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>……你什么时候走？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>还没定。等存够钱。快了。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你存了多少？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>一千多。够路费了。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>到了那边你住哪？吃什么？你想过没有？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>到了再说。总会有办法的。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你到底在躲什么？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>没躲什么。就是想换个地方。</div>`,
+            6: `<div class="chat-bubble"><span class="chat-name">虾米3716：</span>粥粥，我明天就走了。谢谢你一直陪我聊天，你是我最好的朋友。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>这么快？！你存够钱了？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>存够了。够路费就行。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>你真的不跟家里说一声？</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>他们不会发现的。等发现了也无所谓。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>有些事情我没办法跟你解释。总之，我走了以后别找我。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>张皓宁，你吓到我了。到底怎么了？你跟我说啊。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>说不清楚。也不想说。你就当我去外地打工了吧。</div><div class="chat-bubble"><span class="chat-name">周粥：</span>那你到了给我发个消息，报个平安。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>……好。</div><div class="chat-bubble"><span class="chat-name">虾米3716：</span>保重。</div><div class="chat-bubble" style="color:#888;">（虾米3716已下线）</div>`
+        };
+        function showChatFragment(num) {
+            const chatArea = document.getElementById('chatArea');
+            chatArea.innerHTML = '<h4>对话片段 ' + num + '</h4>' + chatFragments[num] + '<br><button onclick="openChatModal()">返回列表</button>';
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query === '孔雀镇' || query === '孔雀岭' || query === '失踪') {
+                alert('搜索到相关新闻，请查看新闻页面（在实际游戏流程中会跳转）。');
+            } else if (query !== '') {
+                alert('没有找到相关结果。');
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+    </script>
+</body>
+</html>
