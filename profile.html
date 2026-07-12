@@ -335,13 +335,12 @@
             color: #ff0000;
             font-weight: bold;
             font-family: "微软雅黑", "宋体", Arial, sans-serif;
-            text-shadow: 0 0 8px #ff0000, 0 0 15px #cc0000;
             opacity: 0;
             animation: deathAppear 0.15s ease-out forwards;
         }
         @keyframes deathAppear {
             from { opacity: 0; transform: scale(0.3); }
-            to { opacity: 0.92; transform: scale(1); }
+            to { opacity: 1; transform: scale(1); }
         }
         .death-flash {
             position: fixed;
@@ -757,7 +756,7 @@
                         document.body.appendChild(flash);
                         flash.style.transition = 'opacity 0.1s';
                         flash.style.opacity = '1';
-                        // 维持0.7秒后消失
+                        // 维持0.6秒后消失
                         setTimeout(function() {
                             flash.style.transition = 'opacity 0.3s';
                             flash.style.opacity = '0';
@@ -767,7 +766,7 @@
                                 flash.remove();
                                 overlay.remove();
                             }, 300);
-                        }, 700);
+                        }, 600);
                     }, 150);
                 }
             }, interval);
