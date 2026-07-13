@@ -695,11 +695,22 @@
             chatArea.innerHTML = '<h4>对话片段 ' + num + '</h4>' + chatFragments[num] + '<br><button onclick="openChatModal()">返回列表</button>';
         }
 
+        const pageMap = {
+            forum: 'https://bbbbbdiaN.github.io/shengchao/forum.html',
+            news: 'https://bbbbbdiaN.github.io/shengchao/indexnews12.html',
+            beishan: 'https://bbbbbdiaN.github.io/shengchao/beishan.html'
+        };
         function performSearch() {
             const query = document.getElementById('searchInput').value.trim();
-            if (query === '孔雀镇' || query === '孔雀岭' || query === '失踪') {
-                alert('搜索到相关新闻，请查看新闻页面（在实际游戏流程中会跳转）。');
-            } else if (query !== '') {
+            if (query === '') return;
+            const qLower = query.toLowerCase();
+            if (qLower === '孔雀岭' || qLower === '孔雀镇' || qLower === '肇事案' || qLower === '李某某' || qLower === '张皓宁') {
+                window.location.href = pageMap.news;
+            } else if (qLower === '北山' || qLower === '孙老栓' || qLower === '鹰嘴岩' || qLower === '牛棚') {
+                window.location.href = pageMap.beishan;
+            } else if (qLower === '综合讨论区' || qLower === '论坛') {
+                window.location.href = pageMap.forum;
+            } else {
                 alert('没有找到相关结果。');
             }
         }
