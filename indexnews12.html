@@ -502,13 +502,27 @@
 			bgScrollHandler();
 		}
 
+		const pageMap = {
+			forum: 'https://bbbbbdiaN.github.io/shengchao/forum.html',
+			news: 'https://bbbbbdiaN.github.io/shengchao/indexnews12.html',
+			beishan: 'https://bbbbbdiaN.github.io/shengchao/beishan.html',
+			profile: 'https://bbbbbdiaN.github.io/shengchao/profile.html'
+		};
 		function performSearch() {
 			const query = document.getElementById('searchInput').value.trim();
-			if (query === '孔雀镇' || query === '失踪' || query === '李某某' || query === '农民') {
+			if (query === '') return;
+			const qLower = query.toLowerCase();
+			if (qLower === '孔雀镇' || qLower === '失踪' || qLower === '李某某' || qLower === '农民') {
 				showNews1();
-			} else if (query === '肇事案' || query === '张皓宁' || query === '张某') {
+			} else if (qLower === '肇事案' || qLower === '张皓宁' || qLower === '张某') {
 				showNews2();
-			} else if (query !== '') {
+			} else if (qLower === '北山' || qLower === '孙老栓' || qLower === '鹰嘴岩' || qLower === '牛棚') {
+				window.location.href = pageMap.beishan;
+			} else if (qLower === '虾米3716') {
+				window.location.href = pageMap.profile;
+			} else if (qLower === '综合讨论区' || qLower === '论坛') {
+				window.location.href = pageMap.forum;
+			} else {
 				alert('没有找到相关新闻。');
 			}
 		}

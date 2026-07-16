@@ -260,11 +260,25 @@
     </div>
 
     <script>
+        const pageMap = {
+            forum: 'https://bbbbbdiaN.github.io/shengchao/forum.html',
+            news: 'https://bbbbbdiaN.github.io/shengchao/indexnews12.html',
+            beishan: 'https://bbbbbdiaN.github.io/shengchao/beishan.html',
+            profile: 'https://bbbbbdiaN.github.io/shengchao/profile.html'
+        };
         function performSearch() {
             const query = document.getElementById('searchInput').value.trim();
-            if (query === '孙老栓' || query === '北山' || query === '鹰嘴岩' || query === '牛棚') {
-                // 已在本页面
-            } else if (query !== '') {
+            if (query === '') return;
+            const qLower = query.toLowerCase();
+            if (qLower === '孙老栓' || qLower === '北山' || qLower === '鹰嘴岩' || qLower === '牛棚') {
+                return;
+            } else if (qLower === '孔雀岭' || qLower === '孔雀镇' || qLower === '肇事案' || qLower === '李某某' || qLower === '张皓宁') {
+                window.location.href = pageMap.news;
+            } else if (qLower === '虾米3716') {
+                window.location.href = pageMap.profile;
+            } else if (qLower === '综合讨论区' || qLower === '论坛') {
+                window.location.href = pageMap.forum;
+            } else {
                 alert('没有找到相关新闻。');
             }
         }
