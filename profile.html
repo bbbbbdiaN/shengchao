@@ -648,7 +648,6 @@
                     <p>我一走，就再也没人知道了。</p>
                     <p>明天的一切 <span class="flip">了束结就</span>。</p>
                     <p><span class="flip">望希</span> 这页 ██ 永远不会 <span class="flip">到看 人被</span>。</p>
-                    <p>██████ 已损坏 ██ 请联系管理员 ██████</p>
                 </div>
             `;
             document.getElementById('diaryContent').innerHTML = diaryHTML;
@@ -704,7 +703,7 @@
             const query = document.getElementById('searchInput').value.trim();
             if (query === '') return;
             const qLower = query.toLowerCase();
-            if (qLower === '孔雀岭' || qLower === '孔雀镇' || qLower === '肇事案' || qLower === '李某某' || qLower === '张皓宁') {
+            if (qLower === '孔雀岭' || qLower === '孔雀镇' || qLower === '肇事案') {
                 window.location.href = pageMap.news;
             } else if (qLower === '北山' || qLower === '孙老栓' || qLower === '鹰嘴岩' || qLower === '牛棚') {
                 window.location.href = pageMap.beishan;
