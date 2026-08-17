@@ -437,5 +437,22 @@
             }
         });
     </script>
+    <script>
+        // 屏蔽右键
+        document.oncontextmenu = function() { return false; };
+        // 屏蔽F12和Ctrl组合键
+        document.onkeydown = function(e) {
+            if (e.key === 'F12' ||
+                (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.shiftKey))) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+                e.preventDefault();
+                return false;
+            }
+        };
+        console.log('%c', { length: 1 });
+    </script>
 </body>
 </html>
